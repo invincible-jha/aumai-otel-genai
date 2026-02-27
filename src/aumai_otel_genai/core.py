@@ -179,8 +179,9 @@ class GenAIInstrumentor:
         """
         if self._provider is None:
             self.instrument(attributes.provider)
+        assert self._provider is not None
 
-        tracer = trace.get_tracer(_LIBRARY_NAME, _LIBRARY_VERSION)
+        tracer = self._provider.get_tracer(_LIBRARY_NAME, _LIBRARY_VERSION)
         otel_attrs = attributes.to_otel_dict()
 
         with tracer.start_as_current_span(
